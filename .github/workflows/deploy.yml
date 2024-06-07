@@ -1,0 +1,30 @@
+name: Deploy to Web Server
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to Web Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "StrictHostKeyChecking no" > ~/.ssh/config
+          ssh-keyscan -H ${{secrets.SSH_HOST}} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'cd /home/ubuntu/imei_check/ && git checkout master && git pull && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate --no-input && python manage.py collectstatic --noinput && python manage.py crontab remove && python manage.py crontab add && deactivate && ./restart_services.sh'
