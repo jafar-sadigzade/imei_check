@@ -134,7 +134,7 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 CRON_LOG_PATH = env('CRON_LOG_PATH', default='/home/jafar/Desktop/some_stuff/imei_check/crontab.log')
 
 CRONJOBS = [
-    ('*/5 * * * *', 'core.job.my_job', f'>> {CRON_LOG_PATH} 2>&1'),
+    ('*/30 * * * *', 'core.job.my_job', f'>> {CRON_LOG_PATH} 2>&1'),
 ]
 
 TRY_LOCALLY = env.bool("TRY_LOCALLY", default=False)

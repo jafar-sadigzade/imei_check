@@ -1,0 +1,6 @@
+DJANGO_SECRET_KEY=_%muk37c)55ca1@m&3mucczb8+)wbeych9g-vbci=^mza4*5tj
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=13.60.86.10
+EMAIL_HOST_USER=cefersadiq@gmail.com
+EMAIL_HOST_PASSWORD=yfjhdkucztceokwh
+CRON_LOG_PATH=/home/ubuntu/imei_check/crontab.log
